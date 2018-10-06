@@ -1,5 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
+/* It is a Class created for Graph */
 class Graph{
 	public:
 	unordered_map<int,list<pair<int,int>>> m;
