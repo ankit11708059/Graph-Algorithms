@@ -1,6 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
-
+/* Concept is really simple have have made a list of linked list */
 class Graph{
 	int V;
 	list<int> *l;
