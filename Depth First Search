@@ -1,0 +1,54 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+/* Its concept is really simple we Just have to Create a queue and insert our source to it now we should have a hash map
+because when we visit a node and mark it true such that if that node is connected to some other node than it would be true
+next time we will not push that to queue at that time we just pop front from queue and print it*/
+
+template<typename T>
+class Graph{
+	int V;
+	map<T,list<T>> l;
+	public:
+		Graph()
+		{
+		}
+	void addEdge(T v,T u,bool bidr=true)
+	{
+		l[u].push_back(v);
+		if(bidr==true){
+			l[v].push_back(u);
+		}
+	}
+	void dfshelper(T node,map<T,bool> &m)
+	{
+	    m[node]=true;
+	    cout<<node<<" ";
+
+	    for(auto i : l[node])
+        {
+            if(m[i]==false)
+            {
+                dfshelper(i,m);
+            }
+        }
+	}
+	void dfs(T src)
+	{
+		map<T,bool> m;
+		dfshelper(src,m);
+	}
+};
+int main()
+{
+	Graph<int> g;
+	g.addEdge(0,1);
+	g.addEdge(1,2);
+	g.addEdge(0,4);
+	g.addEdge(2,4);
+	g.addEdge(2,3);
+	g.addEdge(3,5);
+	g.addEdge(3,4);
+	g.dfs(0);
+}
