@@ -1,0 +1,76 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+/* Its concept is really simple we Just have to Create a queue and insert our source to it now we should have a hash map
+because when we visit a node and mark it true such that if that node is connected to some other node than it would be true
+next time we will not push that to queue at that time we just pop front from queue and print it*/
+
+template<typename T>
+class Graph{
+	int V;
+	map<T,list<T>> l;
+	public:
+		Graph()
+		{
+		}
+	void addEdge(T v,T u)
+	{
+		l[v].push_back(u);
+	}
+	void bfs()
+	{
+		map<int,bool> m;
+		map<int,int> u;
+		queue<int> q;
+
+		for(auto i : l)
+        {
+            T node =i.first;
+            m[node]=false;
+            u[node]=0;
+        }
+		for(auto i : l)
+        {
+            T node =i.first;
+
+            for(auto j : l[node])
+            {
+                u[j]++;
+            }
+        }
+        for(auto i : l)
+        {
+            T node = i.first;
+            if(u[node]==0)
+                q.push(node);
+        }
+
+        while(!q.empty())
+        {
+            T node =q.front();
+            cout<<node<<" ";
+            q.pop();
+            for(r : l[node])
+            {
+                u[r]--;
+                if(u[r]==0)
+                {
+                    q.push(r);
+                }
+            }
+        }
+	}
+};
+int main()
+{
+	Graph<int> g;
+	int v,e,a,b;
+	cin>>v>>e;
+	for(int i=0;i<e;i++)
+    {
+        cin>>a>>b;
+        g.addEdge(a,b);
+    }
+	g.bfs();
+}
