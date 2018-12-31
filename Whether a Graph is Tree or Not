@@ -1,0 +1,67 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+vector<int> ankit;
+
+bool iscyclic(map<int,list<int>> v,int src)
+{
+    map<int,int> parent;
+    map<int,bool> check;
+    queue<int> q;
+    q.push(src);
+    parent[src]=src;
+    check[src]=true;
+    while(!q.empty())
+    {
+        int s=q.front();
+        q.pop();
+        for(auto j : v[s])
+        {
+            if(check[j]==true && parent[s]!=j)
+            {
+
+                return true;
+            }
+            else if(check[j]==false)
+            {
+                q.push(j);
+                parent[j]=s;
+                check[j]=true;
+            }
+        }
+    }
+    for(auto i : ankit)
+    {
+        if(check[i]==false)
+        {
+            return true;
+        }
+    }
+
+    return false;
+
+}
+int main()
+{
+    int p,e,flag=0,src,a,b;
+    cin>>p>>e;
+    map<int,list<int>> v;
+    for(int i=0;i<e;i++)
+    {
+        cin>>a>>b;
+        ankit.push_back(a);
+        ankit.push_back(b);
+        if(flag==0)
+        {
+            src=a;
+            flag=1;
+        }
+        v[a].push_back(b);
+        v[b].push_back(a);
+    }
+    if(iscyclic(v,src))
+    cout<<"NO\n";
+    else
+    cout<<"YES\n";
+}

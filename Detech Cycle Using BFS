@@ -1,3 +1,0 @@
-This question is really easy but having a little bit of concept like :
-We Just have to maintain a visited bool map and check for each node but we are not supposed to check a node parent as we know
-that parent is already marked visited.
