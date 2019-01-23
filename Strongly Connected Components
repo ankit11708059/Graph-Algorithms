@@ -1,0 +1,93 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+
+class Graph
+{
+public:
+    int v,e;
+    Graph(int v)
+    {
+        this->v=v;
+    }
+    map<int,list<int>> m;
+    void addEdge(int v,int u)
+    {
+        m[v].push_back(u);
+    }
+    void fillorder(int src,bool *ve,stack<int> &s)
+    {
+
+        ve[src]=true;
+        for(auto i : m[src])
+        {
+            if(ve[i]==false)
+            fillorder(i,ve,s);
+        }
+        s.push(src);
+    }
+    Graph transpose()
+    {
+        Graph gr(v);
+       for(int i=0;i<v;i++)
+       {
+           for(auto j : m[i])
+           {
+               gr.addEdge(j,i);
+           }
+       }
+        return gr;
+    }
+    void dfs(int src,bool ve[])
+    {
+        ve[src]=true;
+        cout<<src<<" ";
+        for(auto i : m[src])
+        {
+            if(ve[i]==false)
+            dfs(i,ve);
+        }
+    }
+    void print()
+    {
+
+        bool *ve=new bool[v];
+        for(int i=0;i<v;i++)
+        {
+            ve[i]=false;
+        }
+        stack<int> s;
+        for(int i=0;i<v;i++)
+        {
+            if(ve[i]==false)
+            fillorder(i,ve,s);
+        }
+        Graph gr=transpose();
+        for(int i=0;i<v;i++)
+        {
+            ve[i]=false;
+        }
+        while(!s.empty())
+        {
+            int node=s.top();
+            s.pop();
+            if(ve[node]==false)
+            {
+                gr.dfs(node,ve);
+                cout<<endl;
+            }
+
+        }
+
+    }
+};
+int main()
+{
+    Graph g(5);
+    g.addEdge(1, 0);
+    g.addEdge(0, 2);
+    g.addEdge(2, 1);
+    g.addEdge(0, 3);
+    g.addEdge(3, 4);
+    g.print();
+}
