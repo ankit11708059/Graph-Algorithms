@@ -1,0 +1,95 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+/* Here the confusing thing is that supppose we have multiple path to reach our destination
+   then how do this algorithm finds out minimum path. But we forgot that this algorihtm is 
+   bfs based and first we will discover the nodes that are at a distance of 1 and then 2 means
+   level wise.*/
+   
+int a[21][21],vis[21][21],n,m;
+struct Point
+{
+    int x,y;
+};
+struct qNode
+{
+    Point p1;
+    int dist;
+};
+int dx[]={-1,0,0,1};
+int dy[]={0,1,-1,0};
+
+bool isvalid(int r,int c)
+{
+    return ((r>=0 && r<n) && (c>=0 && c<m));
+}
+int bfs(Point src,Point dest)
+{
+    for(int i=0;i<20;i++)
+    {
+        for(int j=0;j<20;j++)
+        {
+            vis[i][j]=0;
+        }
+    }
+    if((a[src.x][src.y]!=1) || (a[dest.x][dest.y]!=1))
+        return -1;
+
+    queue<qNode> q;
+    q.push({src,0});
+    vis[src.x][src.y]=1;
+
+    while(!q.empty())
+    {
+        qNode e1=q.front();
+        Point pt=e1.p1;
+        if(pt.x==dest.x && pt.y==dest.y)
+        return e1.dist;
+
+        q.pop();
+
+        for(int i=0;i<4;i++)
+        {
+            int ankit=pt.x+dx[i];
+            int sharma=pt.y+dy[i];
+
+            if(isvalid(ankit,sharma)==true && vis[ankit][sharma]==0 && a[ankit][sharma]==1)
+            {
+                Point u={ankit,sharma};
+                vis[u.x][u.y]=1;
+                q.push({u,e1.dist+1});
+            }
+        }
+
+    }
+    return -1;
+
+}
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+    cin>>n>>m;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            cin>>a[i][j];
+        }
+    }
+    int j,k;
+    cin>>j>>k;
+    Point src={0,0};
+    Point dest={j,k};
+    int ans=bfs(src,dest);
+    if(ans==-1)
+    cout<<"-1\n";
+    else
+    cout<<ans<<endl;
+
+    }
+
+
+}
