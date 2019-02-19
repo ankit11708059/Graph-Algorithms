@@ -1,0 +1,102 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int n,m;
+
+struct Point
+{
+    int x,y;
+};
+int a[1000][1000],dist[1000][1000],vis[1000][1000];
+bool isvalid(int r,int c)
+{
+    return (r>=0 && r<n && c>=0 && c<m);
+}
+void bfs()
+{
+    queue<Point> q;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(a[i][j]==1)
+            {
+                dist[i][j]=0;
+                vis[i][j]=1;
+                Point p;
+                p.x=i;
+                p.y=j;
+                q.push(p);
+            }
+        }
+    }
+    while(!q.empty())
+    {
+        Point p=q.front();
+        q.pop();
+        if(isvalid(p.x+1,p.y) && vis[p.x+1][p.y]==0)
+        {
+            Point s;
+            s.x=p.x+1;
+            s.y=p.y;
+            dist[p.x+1][p.y]=min(dist[p.x+1][p.y],dist[p.x][p.y]+1);
+            vis[p.x+1][p.y]=1;
+            q.push(s);
+        }
+        if(isvalid(p.x-1,p.y) && vis[p.x-1][p.y]==0)
+        {
+            dist[p.x-1][p.y]=min(dist[p.x-1][p.y],dist[p.x][p.y]+1);
+            vis[p.x-1][p.y]=1;
+            q.push({p.x-1,p.y});
+        }
+        if(isvalid(p.x,p.y+1) && vis[p.x][p.y+1]==0)
+        {
+            dist[p.x][p.y+1]=min(dist[p.x][p.y+1],dist[p.x][p.y]+1);
+            vis[p.x][p.y+1]=1;
+            q.push({p.x,p.y+1});
+        }
+        if(isvalid(p.x,p.y-1) && vis[p.x][p.y-1]==0)
+        {
+            dist[p.x][p.y-1]=min(dist[p.x][p.y-1],dist[p.x][p.y]+1);
+            vis[p.x][p.y-1]=1;
+            q.push({p.x,p.y-1});
+        }
+    }
+
+}
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+    cin>>n>>m;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            cin>>a[i][j];
+        }
+    }
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            dist[i][j]=INT_MAX;
+            vis[i][j]=0;
+        }
+    }
+    bfs();
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            cout<<dist[i][j]<<" ";
+        }
+    }
+
+    cout<<endl;
+    }
+
+
+}
